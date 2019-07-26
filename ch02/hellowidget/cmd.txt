@@ -1,0 +1,5 @@
+moc hellowidget.h -o moc_hellowidget.cpp
+g++ -c moc_hellowidget.cpp -I"D:\Qt\Qt5.12.4\5.12.4\mingw73_64\include" -o moc_hellowidget.o
+g++ -c hellowidget.cpp -I"D:\Qt\Qt5.12.4\5.12.4\mingw73_64\include" -o hellowidget.o
+g++ -c main.cpp -I"D:\Qt\Qt5.12.4\5.12.4\mingw73_64\include" -o main.o
+g++ moc_hellowidget.o hellowidget.o main.o -L"D:\Qt\Qt5.12.4\5.12.4\mingw73_64\lib" -lQt5Core -lQt5Gui -lQt5Widgets -o hellowidget

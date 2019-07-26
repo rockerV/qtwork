@@ -1,0 +1,7 @@
+uic hello.ui -o ui_hello.h
+moc hellouiwidget.h -o moc_hellouiwidget.cpp
+g++ -c moc_hellouiwidget.cpp -I"D:\Qt\Qt5.12.4\5.12.4\mingw73_64\include" -o moc_hellouiwidget.o
+g++ -c hellouiwidget.cpp -I"D:\Qt\Qt5.12.4\5.12.4\mingw73_64\include" -o hellouiwidget.o
+g++ -c main.cpp -I"D:\Qt\Qt5.12.4\5.12.4\mingw73_64\include" -o main.o
+
+g++ moc_hellouiwidget.o hellouiwidget.o main.o -L"D:\Qt\Qt5.12.4\5.12.4\mingw73_64\lib" -lQt5Core -lQt5Gui -lQt5Widgets -o hellouiwidget
