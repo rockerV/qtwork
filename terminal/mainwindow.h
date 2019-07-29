@@ -54,7 +54,7 @@
 
 #include <QMainWindow>
 #include <QSerialPort>
-
+#include "uartrecvthread.h"
 QT_BEGIN_NAMESPACE
 
 class QLabel;
@@ -85,6 +85,8 @@ private slots:
 
     void handleError(QSerialPort::SerialPortError error);
 
+    void showRead(const QString &s);
+
 private:
     void initActionsConnections();
 
@@ -96,6 +98,8 @@ private:
     //Console *m_console = nullptr;
     SettingsDialog *m_settings = nullptr;
     QSerialPort *m_serial = nullptr;
+
+    UartRecvThread *m_UartRecvThread;
 };
 
 #endif // MAINWINDOW_H

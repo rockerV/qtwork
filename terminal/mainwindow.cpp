@@ -53,7 +53,7 @@
 #include "ui_mainwindow.h"
 #include "console.h"
 #include "settingsdialog.h"
-
+#include <QDebug>
 #include <QLabel>
 #include <QMessageBox>
 
@@ -82,13 +82,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initActionsConnections();
 
-    connect(m_serial, &QSerialPort::errorOccurred, this, &MainWindow::handleError);
+    //m_UartRecvThread = new UartRecvThread(this, m_serial);
+
+    connect(m_serial, &QSerialPort::errorOccurred, this, &MainWindow::handleError, Qt::QueuedConnection);
 
 //! [2]
-    connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readData);
+    //connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readData);
 //! [2]
     //connect(m_console, &Console::getData, this, &MainWindow::writeData);
 //! [3]
+
+    //connect(m_UartRecvThread, &UartRecvThread::response, this, &MainWindow::showRead, Qt::QueuedConnection);
 }
 //! [3]
 
@@ -117,6 +121,11 @@ void MainWindow::openSerialPort()
         showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
                           .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
                           .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
+
+        m_UartRecvThread = new UartRecvThread(this, m_serial);
+        connect(m_UartRecvThread, &UartRecvThread::response, this, &MainWindow::showRead, Qt::QueuedConnection);
+        m_UartRecvThread->start();
+
     } else {
         QMessageBox::critical(this, tr("Error"), m_serial->errorString());
 
@@ -130,11 +139,19 @@ void MainWindow::closeSerialPort()
 {
     if (m_serial->isOpen())
         m_serial->close();
-    m_console->setEnabled(false);
+    //m_console->setEnabled(false);
     m_ui->actionConnect->setEnabled(true);
     m_ui->actionDisconnect->setEnabled(false);
     m_ui->actionConfigure->setEnabled(true);
     showStatusMessage(tr("Disconnected"));
+
+    if (m_UartRecvThread->isRunning())
+    {
+        m_UartRecvThread->terminate();
+        delete m_UartRecvThread;
+    }
+
+
 }
 //! [5]
 
@@ -157,6 +174,7 @@ void MainWindow::writeData(const QByteArray &data)
 void MainWindow::readData()
 {
     const QByteArray data = m_serial->readAll();
+    qDebug()<<"readData:"<<data<<" !!!";
     //m_console->putData(data);
 }
 //! [7]
@@ -170,6 +188,11 @@ void MainWindow::handleError(QSerialPort::SerialPortError error)
     }
 }
 //! [8]
+
+void MainWindow::showRead(const QString &s)
+{
+    qDebug()<<"showRead:"<<s;
+}
 
 void MainWindow::initActionsConnections()
 {
@@ -186,3 +209,5 @@ void MainWindow::showStatusMessage(const QString &message)
 {
     m_status->setText(message);
 }
+
+

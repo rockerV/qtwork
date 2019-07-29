@@ -1,0 +1,14 @@
+debug/conf.o
+debug/main.o
+debug/mainwindow.o
+debug/queue.o
+debug/settingsdialog.o
+debug/console.o
+debug/uartprocthread.o
+debug/uartrecvthread.o
+debug/qrc_terminal.o
+debug/moc_mainwindow.o
+debug/moc_settingsdialog.o
+debug/moc_console.o
+debug/moc_uartprocthread.o
+debug/moc_uartrecvthread.o

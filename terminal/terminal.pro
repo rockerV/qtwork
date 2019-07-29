@@ -5,15 +5,23 @@ TARGET = terminal
 TEMPLATE = app
 
 SOURCES += \
+    conf.c \
     main.cpp \
     mainwindow.cpp \
+    queue.c \
     settingsdialog.cpp \
-    console.cpp
+    console.cpp \
+    uartprocthread.cpp \
+    uartrecvthread.cpp
 
 HEADERS += \
+    conf.h \
     mainwindow.h \
+    queue.h \
     settingsdialog.h \
-    console.h
+    console.h \
+    uartprocthread.h \
+    uartrecvthread.h
 
 FORMS += \
     mainwindow.ui \

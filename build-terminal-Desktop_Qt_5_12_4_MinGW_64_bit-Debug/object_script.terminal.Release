@@ -1,0 +1,14 @@
+release/conf.o
+release/main.o
+release/mainwindow.o
+release/queue.o
+release/settingsdialog.o
+release/console.o
+release/uartprocthread.o
+release/uartrecvthread.o
+release/qrc_terminal.o
+release/moc_mainwindow.o
+release/moc_settingsdialog.o
+release/moc_console.o
+release/moc_uartprocthread.o
+release/moc_uartrecvthread.o
